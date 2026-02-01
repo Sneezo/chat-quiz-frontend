@@ -49,7 +49,7 @@ export default function RoomPage() {
                     Room: <strong>{snap.roomId}</strong> | Status: <strong>{status}</strong>
                     {error ? <span>{error}</span> : null}
                 </div>
-                <QuestionBanner state={snap.state} question={snap.question} winnerName={winnerName} />
+                <QuestionBanner state={snap.state} question={snap.question} winnerName={winnerName} nextRoundAt={snap.nextRoundAt} />
                 <MessageList messages={messages} />
                 <MessageInput onSend={sendMessage} disabled={snap.state !== "active"} />
             </div>
