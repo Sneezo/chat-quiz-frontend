@@ -1,5 +1,5 @@
 import type { RoomState, Question } from "../types/game";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 type Props = {
     state: RoomState;

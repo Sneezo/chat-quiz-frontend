@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect, useRef } from "react";
 import QuestionBanner from "../components/QuestionBanner";
 import MessageInput from "../components/MessageInput";
 import MessageList from "../components/MessageList";
@@ -25,6 +25,7 @@ export default function RoomPage() {
     const { roomId: roomIdParam } = useParams();
     const navigate = useNavigate();
 
+
     const roomId = roomIdParam ?? "demo";
     const username = localStorage.getItem(LS_USERNAME) ?? "";
     if(!username) {
@@ -41,6 +42,17 @@ export default function RoomPage() {
         return w?.username;
     }, [snap.players, snap.winnerUserId]);
 
+    const inputRef = useRef<HTMLInputElement | null>(null);
+    const prevStateRef = useRef(snap.state);
+
+    useEffect(() => {
+        const prev = prevStateRef.current;
+        const next = snap.state;
+        prevStateRef.current = next;
+        if(prev !== "active" && next === "active") {
+            inputRef.current?.focus();
+        }
+    },[snap.state]);
 
     return (
         <div className="app">
@@ -51,7 +63,7 @@ export default function RoomPage() {
                 </div>
                 <QuestionBanner state={snap.state} question={snap.question} winnerName={winnerName} nextRoundAt={snap.nextRoundAt} />
                 <MessageList messages={messages} />
-                <MessageInput onSend={sendMessage} disabled={snap.state !== "active"} />
+                <MessageInput ref={inputRef} onSend={sendMessage} disabled={snap.state !== "active"} />
             </div>
             <div className="sidebar">
                 <Scoreboard players={snap.players} />

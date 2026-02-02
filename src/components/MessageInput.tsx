@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 
 type Props = {
     disabled?: boolean;
     onSend: (text: string) => void;
 };
 
-export default function MessageInput({ disabled, onSend }: Props) {
+function MessageInput({ disabled, onSend }: Props, ref:React.Ref<HTMLInputElement>) {
     const [text, setText] = useState("");
 
     function send() {
@@ -18,6 +18,7 @@ export default function MessageInput({ disabled, onSend }: Props) {
     return (
         <div className="inputRow">
             <input
+                ref={ref}
                 value = {text}
                 disabled = {disabled}
                 placeholder = {disabled ? "Round ended.." : "Type your answer..."}
@@ -30,3 +31,5 @@ export default function MessageInput({ disabled, onSend }: Props) {
         </div>
     );
 }
+
+export default forwardRef<HTMLInputElement, Props>(MessageInput);
