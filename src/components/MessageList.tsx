@@ -2,7 +2,7 @@ import type { Message } from "../types/game";
 
 export default function MessageList({ messages }:{ messages: Message[] }) {
     return (
-        <div className="messages">
+        <div className="messages" style={{maxHeight:"60vh", overflow:"auto"}}>
             {messages.map((m) => {
                 const isSystem = m.userId === "system";
                 return(

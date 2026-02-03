@@ -28,4 +28,5 @@ export type RoomSnapshot = {
     messages: Message[];
     winnerUserId?: string;
     nextRoundAt?: number;
+    queuedQuestionCount?: number;
 }

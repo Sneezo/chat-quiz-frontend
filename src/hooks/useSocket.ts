@@ -61,11 +61,18 @@ export function useSocket(roomId: string, username: string) {
         sock.emit("chat:send", { roomId, content });
     }
 
+    function submitQuestion(text: string, answer: string) {
+        const sock = socketRef.current;
+        if (!sock || status !== "connected") return;
+        sock.emit("question:submit", { roomId, text, answer });
+    }
+
     return {
         status,
         error,
         snapshot,
         messages,
         sendMessage,
+        submitQuestion,
     }
 }

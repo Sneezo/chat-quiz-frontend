@@ -6,6 +6,7 @@ import Scoreboard from "../components/Scoreboard";
 import type { RoomSnapshot } from "../types/game";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSocket } from "../hooks/useSocket";
+import SubmitQuestion from "../components/SubmitQuestion";
 
 const LS_USERNAME = "chatquiz.username";
 
@@ -33,7 +34,7 @@ export default function RoomPage() {
         return null;
     }
 
-    const { status, error, snapshot, messages, sendMessage } = useSocket(roomId, username);
+    const { status, error, snapshot, messages, sendMessage, submitQuestion } = useSocket(roomId, username);
 
     const snap = snapshot ?? fallback(roomId, username);
 
@@ -55,8 +56,8 @@ export default function RoomPage() {
     },[snap.state]);
 
     return (
-        <div className="app">
-            <div className="main">
+        <div className="app" style={{height:"95%"}}>
+            <div className="main" style={{maxHeight:"95%"}}>
                 <div>
                     Room: <strong>{snap.roomId}</strong> | Status: <strong>{status}</strong>
                     {error ? <span>{error}</span> : null}
@@ -67,6 +68,10 @@ export default function RoomPage() {
             </div>
             <div className="sidebar">
                 <Scoreboard players={snap.players} />
+                <div style={{ marginTop: 12, fontSize: 12, opacity: 0.75 }}>
+                    Queued questions: <strong>{snap.queuedQuestionCount ?? "—"}</strong>
+                </div>
+                <SubmitQuestion disabled={status !== "connected"} onSubmit={submitQuestion} />
             </div>
         </div>
     );
