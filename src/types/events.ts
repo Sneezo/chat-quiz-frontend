@@ -3,7 +3,7 @@ import type { Message, RoomSnapshot } from "./game";
 export type ClientToServerEvents = {
     "room:join": (payload: {roomId: string; username: string}) => void;
     "chat:send": (payload: {roomId: string; content: string}) => void;
-     "question:submit": (payload: { roomId: string; text: string; answer: string }) => void;
+     "question:submit": (payload: { roomId: string; text: string; answers: string[] }) => void;
 };
 
 export type ServerToClientEvents = {

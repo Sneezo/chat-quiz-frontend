@@ -56,7 +56,7 @@ export default function RoomPage() {
     },[snap.state]);
 
     return (
-        <div className="app" style={{height:"95%"}}>
+        <div className="app" style={{height:"95vh"}}>
             <div className="main" style={{maxHeight:"95%"}}>
                 <div>
                     Room: <strong>{snap.roomId}</strong> | Status: <strong>{status}</strong>

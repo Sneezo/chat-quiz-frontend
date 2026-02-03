@@ -1,8 +1,25 @@
 import type { Message } from "../types/game";
+import { useEffect, useRef } from "react";
 
-export default function MessageList({ messages }:{ messages: Message[] }) {
+type Props = {
+    messages: Message[];
+}
+
+export default function MessageList({ messages } : Props) {
+    const containerRef = useRef<HTMLDivElement | null>(null);
+    const bottomRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        const container = containerRef.current;
+        if (!container) return;
+
+        const isNearBottom = container.scrollHeight - container.scrollTop - container.clientHeight < 80;
+
+        if(isNearBottom) bottomRef.current?.scrollIntoView({behavior: "smooth"});
+    }, [messages])
+
     return (
-        <div className="messages" style={{maxHeight:"60vh", overflow:"auto"}}>
+        <div ref={containerRef} className="messages" style={{maxHeight:"80vh",minHeight:0,overflowY:"auto"}}>
             {messages.map((m) => {
                 const isSystem = m.userId === "system";
                 return(
@@ -15,7 +32,8 @@ export default function MessageList({ messages }:{ messages: Message[] }) {
                         {m.isCorrect && <div style={{fontSize: 12, marginTop: 6}}>✅ Correct Answer</div>}
                 </div>
                 )
-})}
+            })}
+            <div ref={bottomRef}/>
         </div>
     )
 }
